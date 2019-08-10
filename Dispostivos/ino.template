@@ -1,0 +1,19 @@
+/**************************************
+ * Author      : Velazquez Ivan
+ * Date        : Julio 2019
+ */
+
+#include "/home/ivan/Documentos/GIT/InternetOfThings/Modules/WIFI.h"
+const char *id_dispositivo = "001";
+
+void setup() 
+{
+    delay(200);
+    Serial.begin(115200);
+    wifi_setup(id_dispositivo);
+}
+void loop() 
+{
+    wifi_loop();
+    server.handleClient();
+}

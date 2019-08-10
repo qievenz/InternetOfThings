@@ -1,0 +1,135 @@
+dotnet new webapi
+
+Configurar BD
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+
+
+generar modelos y context
+dotnet ef dbcontext scaffold "Datasource=/home/ivan/Documentos/GIT/IOT/InternetOfThings" -o Models Microsoft.EntityFrameworkCore.Sqlite -c "APIAppDbContext" -f -d
+
+Cambiar ValueGeneratedNever
+por ValueGeneratedOnAdd
+en APIAppDbContext
+
+generar controladores
+dotnet-aspnet-codegenerator -p "/home/ivan/Documentos/GIT/IOT/IOT.csproj" controller -name DispositivoController -api -f -m IOT.Models.Dispositivo -dc APIAppDbContext -outDir Controllers -namespace IOT.Controllers
+dotnet-aspnet-codegenerator -p "/home/ivan/Documentos/GIT/IOT/IOT.csproj" controller -name MedicionController -api -f -m IOT.Models.Medicion -dc APIAppDbContext -outDir Controllers -namespace IOT.Controllers
+dotnet-aspnet-codegenerator -p "/home/ivan/Documentos/GIT/IOT/IOT.csproj" controller -name SensorController -api -f -m IOT.Models.Sensor -dc APIAppDbContext -outDir Controllers -namespace IOT.Controllers
+dotnet-aspnet-codegenerator -p "/home/ivan/Documentos/GIT/IOT/IOT.csproj" controller -name LogController -api -f -m IOT.Models.Log -dc APIAppDbContext -outDir Controllers -namespace IOT.Controllers
+
+
+Simmular
+
+
+
+"Tipo":asd",
+"Nombre":sdf",
+"Descripcion":dfg",
+"Funcion":asdfasd",
+"Ubicacion":dsfsd",
+"VoltajeMin":34",
+"VoltajeMax":5
+
+GET
+curl -v --insecure https://localhost:5001/api/Dispositivo
+
+POST
+curl -v -d '{"DispositivoID":NULL,"Tipo":"asd","Nombre":"sdf","Descripcion":"dfg","Funcion":"asdfasd","Ubicacion":"dsfsd","VoltajeMin":34,"VoltajeMax":5}' -H "Content-Type: application/json" --insecure https://localhost:5001/api/Dispositivo
+
+{"MedicionId": ,
+"DispositivoId":1,
+"SensorId":2,
+"Inicio":"getdate",
+"Fin":"getdate",
+"Valor":"prueba"}
+
+
+
+http://192.168.1.145:5001/api/Medicion?Valor3=18.3&SensorId=2&Valor2=24.8&nombre=AIRE&Fin=2019-07-09+18%3A54%3A25&DispositivoId=1&Inicio=2019-07-09+18%3A54%3A24&Valor1=TEST
+curl -v -d '{"DispositivoId":1,"SensorId":2,"Inicio":"tms_inicio","Fin":"tms_fin", "nombre":"dispo", "Valor_1":"accion", "Valor_2":3.2, "Valor_3":2.0}' -H "Content-Type: application/json" --insecure https://localhost:5001/api/Medicion
+
+
+
+
+###########################################
+Python grabar medicion:
+data = {'DispositivoId':1,
+    'SensorId':2,
+    'Inicio':tms_inicio,
+    'Fin':tms_fin,
+    'nombre':DISPOSITIVO,
+    'Valor1':ACCION,
+    'Valor2':datos[0],
+    'Valor3':datos[1]}
+
+Python grabar log:
+data = {'Nombre':'',
+    'Descripcion':'',
+    'Inicio':'',
+    'Valor1':'',
+    'Valor2':datos[0],
+    'Valor3':datos[1]}
+
+
+Post:
+a = requests.post('http://192.168.1.250:5001/api/Medicion', json=data, headers={'content-type': 'application/json'})
+a = requests.post('http://192.168.1.250:5001/api/Log', json=data, headers={'content-type': 'application/json'})
+###########################################
+
+dotnet publish -c Release -r linux-arm
+cd '/home/ivan/Documentos/GIT/wsIOT/bin/Release/netcoreapp2.2/linux-arm/publish/'
+python -m SimpleHTTPServer
+
+cd /var/www/InternetOfThings
+sudo wget -r -np -nH -R index.* 192.168.1.145:8000
+sudo chmod +x wsIOT
+./wsIOT
+
+###########################################
+sudo nano /etc/systemd/system/wsIOT.service:
+[Unit]
+    Description=Internet Of Things
+    
+    [Service]
+    ExecStart=/var/www/InternetOfThings/StartwsIOT
+    Restart=always
+    RestartSec=10
+    SyslogIdentifier=wsIOT
+    User=www-data
+    Environment=ASPNETCORE_ENVIRONMENT=Production
+
+    [Install]
+    WantedBy=multi-user.target
+
+sudo systemctl enable wsIOT.service
+sudo systemctl restart wsIOT.service
+sudo systemctl status wsIOT.service
+###########################################
+sudo nano /etc/apache2/sites-available/internetofthings.conf
+<VirtualHost *:5001>
+  DocumentRoot /var/www/InternetOfThings/wwwroot/
+  ProxyRequests Off
+  ProxyPreserveHost on
+  ProxyPass / http://localhost:5001/
+  ProxyPassReverse / http://localhost:5001/
+  ServerName localhost
+  ErrorLog /var/log/apache2/internetofthings.log
+  CustomLog /var/log/apache2/internetofthings.log common
+</VirtualHost>
+
+
+sudo a2ensite internetofthings
+sudo a2dissite 000-default
+sudo systemctl reload apache2
+###########################################
+Dejar la BD en otro lado que no sea configuraciones
+hacer esa carpeta accesible
+
+###########################################
+scp -i /path/to/key username@example.com:/remote/path/to/file /local/path
+scp -r username@example.com:/remote/path/to/directory  /local/path
+scp -r /local/directory/path username@example:/remote/directory/path
+###########################################
+###########################################
