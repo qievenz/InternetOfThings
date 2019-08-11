@@ -318,14 +318,6 @@ String fecha_hora()
     resultado += (p_tm->tm_sec);
     return resultado;
 }
-void wifi_loop()
-{
-    if (digitalRead(0)==LOW && eeprom.validar())
-    {
-        eeprom.grabar();
-        Serial.println("Datos grabados con exito!");
-    }
-}
 void wifi_setup(const char *id_dispositivo)
 {
     pinMode(0,INPUT);   //Boton FLASH
@@ -354,5 +346,13 @@ void wifi_setup(const char *id_dispositivo)
     {
         Serial.print(".");
         delay(1000);
+    }
+}
+void wifi_loop()
+{
+    if (digitalRead(0)==LOW && eeprom.validar())
+    {
+        eeprom.grabar();
+        Serial.println("Datos grabados con exito!");
     }
 }
