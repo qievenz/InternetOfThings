@@ -8,7 +8,7 @@
             ],
             "browse": {
                 "path": [
-                    "/home/ivan/Documentos/GIT/InternetOfThings/Modules/**",
+                    "/home/ivan/arduino-1.8.9/libraries/**",
                     "/home/ivan/.arduino15/packages/esp8266/tools/**",
                     "/home/ivan/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
                     "${workspaceRoot}"
