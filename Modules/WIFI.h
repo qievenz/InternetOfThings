@@ -10,6 +10,7 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h> 
 #include <ESP8266WebServer.h>
+//#include "/home/ivan/Documentos/GIT/InternetOfThings/Modules/General.h"
 //Definicion de clases
 class Eeprom_class
 {
@@ -152,11 +153,6 @@ Eeprom_class eeprom;
 ESP8266WebServer server(80);
 WiFiClient client;
 //Funciones
-String CharToString(char* a)
-{
-    String s = a;
-    return s;
-}
 void conectar_AP(String essid, String passwd)
 {
     Serial.println("Iniciando WiFi...");
