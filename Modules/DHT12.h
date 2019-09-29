@@ -4,9 +4,9 @@
  * 
  */
 #include <DHT12.h>
-#define GPIO_PIN 4//D2 = GPIO 4
+//#define GPIO_PIN 4//D2 = GPIO 4
 //Temperatura y humedad ambiente
-DHT12 SENSOR(GPIO_PIN, true);
+DHT12 SENSOR(GPIO_04, true);
 
 class DHT12_class
 {

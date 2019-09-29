@@ -4,7 +4,6 @@
  * 
  */
 //#include "/home/ivan/Documentos/GIT/InternetOfThings/Modules/General.h"
-#define GPIO_PIN A0
 //Humedad en el suelo
 class Higrometro_class
 {
@@ -15,7 +14,7 @@ class Higrometro_class
     {
         for (int i = 0; i < MUESTRAS; i++)
         {
-            *humedad += analogRead(GPIO_PIN);
+            *humedad += analogRead(GPIO_A0);
             delay(30);
         }
         *humedad = *humedad / MUESTRAS;    

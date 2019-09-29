@@ -321,11 +321,13 @@ void wifi_setup(const char *id_dispositivo)
     eeprom.leer();
     if (CharToString(eeprom.ESSID).length() > 0 && CharToString(eeprom.EPASS).length() > 0)
     {
+        Serial.println("Conecctar ap");
         //Conectarse al AP ingresado
         conectar_AP(CharToString(eeprom.ESSID), CharToString(eeprom.EPASS));
     }
     else
     {
+        Serial.println("Formatear");
         //Levantar AP para ingresar los datos y grabarlos en memoria
         eeprom.formatear();
         /*for (int i = 0; i < sizeof(eeprom.ID_mcu); i++)
@@ -343,6 +345,7 @@ void wifi_setup(const char *id_dispositivo)
         Serial.print(".");
         delay(1000);
     }
+    Serial.println("Fin");
 }
 void wifi_loop()
 {

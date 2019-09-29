@@ -3,19 +3,19 @@
  * Date        : Agosto 2019
  * 
  */
-#define GPIO_PIN 12//GPIO12 = D6
+//#define GPIO_PIN 12//GPIO12 = D6
 
 class PIR_class
 {
     public:
     void setup()
     {
-        pinMode(GPIO_PIN, INPUT);
+        pinMode(GPIO_12, INPUT);
     }
     bool loop()
     {
         bool resultado;
-        if (digitalRead(GPIO_PIN) == HIGH)
+        if (digitalRead(GPIO_12) == HIGH)
         {
             Serial.println("Movimiento detectado!");
             resultado = true;

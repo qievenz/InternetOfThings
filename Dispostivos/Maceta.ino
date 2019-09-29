@@ -11,38 +11,39 @@
  *  dormir 2 hs
  */
 
-#include "/home/ivan/Documentos/GIT/InternetOfThings/Modules/General.h"
-#include "/home/ivan/Documentos/GIT/InternetOfThings/Modules/WIFI.h"
-#include "/home/ivan/Documentos/GIT/InternetOfThings/Modules/DHT12.h"
-#include "/home/ivan/Documentos/GIT/InternetOfThings/Modules/Higrometro.h"
-#include "/home/ivan/Documentos/GIT/InternetOfThings/Modules/Rele.h"
-#include "/home/ivan/Documentos/GIT/InternetOfThings/Modules/PIR.h"
+#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/General.h"
+#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/WIFI.h"
+#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/DHT12.h"
+#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Higrometro.h"
+#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Rele.h"
+#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/PIR.h"
+#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Voltimetro.h"
 //ID unica del dispositivo
 const char *id_dispositivo = "001";
-Higrometro_class higrometro;
-DHT12_class dht12;
-Rele_class rele;
-PIR_class pir;
+//Higrometro_class higrometro;
+//DHT12_class dht12;
+//Rele_class rele;
+//PIR_class pir;
+Voltimetro_class voltimetro;
 
 void setup() 
 {
     delay(200);
     Serial.begin(115200);
     wifi_setup(id_dispositivo);
-    dht12.setup();
-    rele.setup();
-    pir.setup();
+    //dht12.setup();
+    //rele.setup();
+    //pir.setup();
 
 }
 void loop() 
 {
     wifi_loop();
-    float humedad_ambiente, temperatura_ambiente, humedad_suelo;
+    float humedad_ambiente, temperatura_ambiente, humedad_suelo, voltaje;
     //dht12.loop(&humedad_ambiente, &temperatura_ambiente);
     //higrometro.loop(&humedad_suelo);
     //rele.loop();
-    pir.loop();
-    
+    voltimetro.loop(&voltaje);
     //Peticiones entrantes
     //server.handleClient();
 }

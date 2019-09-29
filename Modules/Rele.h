@@ -3,29 +3,33 @@
  * Date        : Agosto 2019
  * 
  */
-#define GPIO_PIN 13 //GPIO13 = D7
 
 class Rele_class
 {
     public:
+    int speed;
     void setup()
     {
-        pinMode(GPIO_PIN, OUTPUT);
-        digitalWrite(GPIO_PIN, LOW);
+        pinMode(GPIO_05, OUTPUT);
+        digitalWrite(GPIO_05, LOW);
         delay(3);
     }
     void encender()
     {
-        digitalWrite(GPIO_PIN, HIGH);
+        Serial.println("Encendiendo rele");
+        digitalWrite(GPIO_05, HIGH);
     }
     void apagar()
     {
-        digitalWrite(GPIO_PIN, LOW);
+
+        Serial.println("Apagando rele");
+        digitalWrite(GPIO_05, LOW);
     }
     void loop()
     {
-        digitalWrite(GPIO_PIN, HIGH);
-        delay(1000);
-        digitalWrite(GPIO_PIN, LOW);
+        encender();
+        delay(5000);
+        apagar();
+        delay(5000);
     }
 };
