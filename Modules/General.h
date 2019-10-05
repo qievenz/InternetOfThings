@@ -18,13 +18,11 @@
 #define GPIO_03 RX  //
 #define GPIO_01 TX  //
 
-
 //Devolver hora en milisegundos
 int hora_mili(int hora)
 {
     return hora * (3.6e+6);
 }
-
 
 String CharToString(char* a)
 {

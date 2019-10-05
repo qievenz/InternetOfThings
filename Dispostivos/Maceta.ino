@@ -43,7 +43,9 @@ void loop()
     //dht12.loop(&humedad_ambiente, &temperatura_ambiente);
     //higrometro.loop(&humedad_suelo);
     //rele.loop();
-    voltimetro.loop(&voltaje);
+    //voltimetro.loop(&voltaje);
     //Peticiones entrantes
     //server.handleClient();
+    digitalWrite(GPIO_04, HIGH);
+    voltimetro.loop(&voltaje);
 }

@@ -3,8 +3,6 @@
  * Date        : Agosto 2019
  * 
  */
-//#define GPIO_PIN A0
-//#define OFFSET 2424
 #define OFFSET 240
 //Voltaje
 class Voltimetro_class
