@@ -17,7 +17,9 @@ class Higrometro_class
             *humedad += analogRead(GPIO_A0);
             delay(30);
         }
-        *humedad = *humedad / MUESTRAS;    
+        *humedad = *humedad / MUESTRAS;
+        Serial.print("Raw Humedad: ");
+        Serial.println(*humedad);  
         *humedad = map(*humedad,1024,270,0,100);
         Serial.print("Humedad en suelo: ");
         Serial.println(*humedad);

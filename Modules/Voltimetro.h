@@ -18,14 +18,11 @@ class Voltimetro_class
             delay(30);
         }
         *voltaje = *voltaje / MUESTRAS;
-        //Serial.print("Raw: ");
-        //Serial.println(*voltaje);
+        Serial.print("Raw Voltaje: ");
+        Serial.println(*voltaje);
         *voltaje = map(*voltaje,1.5,1023,0,2500) - OFFSET; //0 - 25000 mV
-        //Serial.print("Raw map: ");
-        //Serial.println(*voltaje);
         *voltaje /= 100;
         Serial.print("Voltaje: ");
         Serial.println(*voltaje);
-        delay(500);
     }
 };

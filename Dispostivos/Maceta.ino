@@ -20,7 +20,7 @@
 #include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Voltimetro.h"
 //ID unica del dispositivo
 const char *id_dispositivo = "001";
-//Higrometro_class higrometro;
+Higrometro_class higrometro;
 //DHT12_class dht12;
 //Rele_class rele;
 //PIR_class pir;
@@ -34,18 +34,32 @@ void setup()
     //dht12.setup();
     //rele.setup();
     //pir.setup();
-
+    pinMode(GPIO_13, OUTPUT);
+    pinMode(GPIO_14, OUTPUT);
+    pinMode(GPIO_A0, INPUT);
 }
 void loop() 
 {
     wifi_loop();
     float humedad_ambiente, temperatura_ambiente, humedad_suelo, voltaje;
     //dht12.loop(&humedad_ambiente, &temperatura_ambiente);
-    //higrometro.loop(&humedad_suelo);
+    
     //rele.loop();
     //voltimetro.loop(&voltaje);
     //Peticiones entrantes
     //server.handleClient();
-    digitalWrite(GPIO_04, HIGH);
-    voltimetro.loop(&voltaje);
+    
+
+    while (true)
+    {
+        digitalWrite(GPIO_13, HIGH);
+        voltimetro.loop(&voltaje);
+        digitalWrite(GPIO_13, LOW);
+        delay(5000);
+        digitalWrite(GPIO_14, HIGH);
+        higrometro.loop(&humedad_suelo);
+        digitalWrite(GPIO_14, LOW);
+        delay(5000);
+    }
+       
 }
