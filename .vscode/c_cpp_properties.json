@@ -1,27 +1,26 @@
 {
-    "configurations": [
-        {
-            "name": "Linux",
-            "includePath": [
+    "configurations": [{
+        "name": "Linux",
+        "includePath": [
+            "/home/ivan/.arduino15/packages/esp8266/tools/**",
+            "/home/ivan/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**"
+        ],
+        "browse": {
+            "path": [
+                "/home/ivan/arduino-1.8.9/libraries/**",
+                "/home/ivan/Arduino/libraries/",
                 "/home/ivan/.arduino15/packages/esp8266/tools/**",
-                "/home/ivan/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**"
+                "/home/ivan/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
+                "${workspaceRoot}"
             ],
-            "browse": {
-                "path": [
-                    "/home/ivan/arduino-1.8.9/libraries/**",
-                    "/home/ivan/.arduino15/packages/esp8266/tools/**",
-                    "/home/ivan/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
-                    "${workspaceRoot}"
-                ],
-                "limitSymbolsToIncludedHeaders": true,
-                "databaseFilename": ""
-            },
-            "forcedInclude": [],
-            "intelliSenseMode": "gcc-x64",
-            "compilerPath": "/usr/bin/gcc",
-            "cStandard": "c11",
-            "cppStandard": "c++17"
-        }
-    ],
+            "limitSymbolsToIncludedHeaders": true,
+            "databaseFilename": ""
+        },
+        "forcedInclude": [],
+        "intelliSenseMode": "gcc-x64",
+        "compilerPath": "/usr/bin/gcc",
+        "cStandard": "c11",
+        "cppStandard": "c++17"
+    }],
     "version": 4
 }

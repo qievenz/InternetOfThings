@@ -11,13 +11,13 @@
  *  dormir 2 hs
  */
 
-#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/General.h"
-#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/WIFI.h"
-#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/DHT12.h"
-#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Higrometro.h"
-#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Rele.h"
-#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/PIR.h"
-#include "/media/NAS4/Documentos/03.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Voltimetro.h"
+#include "/mnt/Media/Documentos/03.Software/01.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/General.h"
+#include "/mnt/Media/Documentos/03.Software/01.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/WIFI.h"
+#include "/mnt/Media/Documentos/03.Software/01.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/DHT12.h"
+#include "/mnt/Media/Documentos/03.Software/01.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Higrometro.h"
+#include "/mnt/Media/Documentos/03.Software/01.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Rele.h"
+#include "/mnt/Media/Documentos/03.Software/01.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/PIR.h"
+#include "/mnt/Media/Documentos/03.Software/01.Proyectos/01. Domotica/02. NodeMCU/InternetOfThings/Modules/Voltimetro.h"
 //ID unica del dispositivo
 const char *id_dispositivo = "001";
 Higrometro_class higrometro;
@@ -26,7 +26,7 @@ Higrometro_class higrometro;
 //PIR_class pir;
 Voltimetro_class voltimetro;
 
-void setup() 
+void setup()
 {
     delay(200);
     Serial.begin(115200);
@@ -38,17 +38,16 @@ void setup()
     pinMode(GPIO_14, OUTPUT);
     pinMode(GPIO_A0, INPUT);
 }
-void loop() 
+void loop()
 {
     wifi_loop();
     float humedad_ambiente, temperatura_ambiente, humedad_suelo, voltaje;
     //dht12.loop(&humedad_ambiente, &temperatura_ambiente);
-    
+
     //rele.loop();
     //voltimetro.loop(&voltaje);
     //Peticiones entrantes
     //server.handleClient();
-    
 
     while (true)
     {
@@ -61,5 +60,4 @@ void loop()
         digitalWrite(GPIO_14, LOW);
         delay(5000);
     }
-       
 }
