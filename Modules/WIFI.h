@@ -8,12 +8,12 @@
  */
 #include <EEPROM.h>
 #include <ESP8266WiFi.h>
-#include <WiFiClient.h> 
+#include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 //Definicion de clases
 class Eeprom_class
 {
-    public:
+public:
     const int MAX_SIZE = 512;
     char ESSID[32];
     char EPASS[64];
@@ -143,7 +143,10 @@ class Eeprom_class
         {
             resultado = true;
         }
-        else {resultado = false;}
+        else
+        {
+            resultado = false;
+        }
         return resultado;
     }
 };
@@ -167,7 +170,7 @@ void conectar_AP(String essid, String passwd)
     //IPAddress ip = WiFi.localIP();
     Serial.print("Obteniendo IP...");
     //if (ip.toString() == "(IP unset)")
-    while(WiFi.localIP().toString() == "(IP unset)")
+    while (WiFi.localIP().toString() == "(IP unset)")
     {
         Serial.print("...");
         delay(5000);
@@ -180,10 +183,10 @@ void conectar_AP(String essid, String passwd)
 void page_softAP()
 {
     //TODO: Agregar el alta del dispositivo en la BD. Ingresar nombre del dispositivo, descripcion
-    int Tnetwork=0;
-    String html="";
-    String html_networks="";
-    Tnetwork = WiFi.scanNetworks();//Scan for total networks available
+    int Tnetwork = 0;
+    String html = "";
+    String html_networks = "";
+    Tnetwork = WiFi.scanNetworks(); //Scan for total networks available
     html_networks = "<ul>";
     for (int i = 0; i < Tnetwork; ++i)
     {
@@ -195,7 +198,7 @@ void page_softAP()
         html_networks += " (";
         html_networks += WiFi.RSSI(i);
         html_networks += ")";
-        html_networks += (WiFi.encryptionType(i) == ENC_TYPE_NONE)?" ":"*";
+        html_networks += (WiFi.encryptionType(i) == ENC_TYPE_NONE) ? " " : "*";
         html_networks += "</li>";
     }
     html_networks += "</ul>";
@@ -212,19 +215,20 @@ void page_softAP()
     html += "<input type='submit'></form>";
     html += "</html>\r\n\r\n";
     Serial.println(html);
-    server.send( 200 , "text/html", html);
+    server.send(200, "text/html", html);
 }
-void request_softAP(){
+void request_softAP()
+{
     String ssid = "";
     String pass = "";
     String iprpi = "";
     String html = "";
     //Obtener essid y pass del request recibido
     if (server.hasArg("ssid") && server.hasArg("pass") && server.hasArg("iprpi"))
-    {  
-        ssid=server.arg("ssid");
-        pass=server.arg("pass");
-        iprpi=server.arg("iprpi");
+    {
+        ssid = server.arg("ssid");
+        pass = server.arg("pass");
+        iprpi = server.arg("iprpi");
 
         if (ssid.length() > 1 && pass.length() > 1 && iprpi.length() > 1)
         {
@@ -252,16 +256,16 @@ void levantar_AP()
     const char *essid_ap = "NodeMCU";
     //Configurar AP
     WiFi.mode(WIFI_AP_STA);
-    IPAddress local_IP(192,168,4,22);
-    IPAddress gateway(192,168,4,9);
-    IPAddress subnet(255,255,255,0);
+    IPAddress local_IP(192, 168, 4, 22);
+    IPAddress gateway(192, 168, 4, 9);
+    IPAddress subnet(255, 255, 255, 0);
     Serial.println(WiFi.softAPConfig(local_IP, gateway, subnet) ? "SoftAPConfig Ready" : "SoftAPConfig Failed!");
     //Levantar AP
     Serial.println(WiFi.softAP(essid_ap) ? "SoftAP Ready" : "SoftAP Failed!");
     Serial.print("ESSID: ");
     Serial.println(essid_ap);
     Serial.print("Obteniendo IP...");
-    while(WiFi.softAPIP().toString() == "(IP unset)")
+    while (WiFi.softAPIP().toString() == "(IP unset)")
     {
         Serial.print("...");
         delay(5000);
@@ -270,8 +274,8 @@ void levantar_AP()
     Serial.println(WiFi.softAPIP());
     Serial.println("In Ap Mode");
     //Setear servicios web
-    server.on("/",page_softAP);
-    server.on("/wificonnect", request_softAP); 
+    server.on("/", page_softAP);
+    server.on("/wificonnect", request_softAP);
     server.begin();
     delay(300);
 }
@@ -279,7 +283,7 @@ String fecha_hora()
 {
     String resultado = "";
     time_t now = time(nullptr);
-    struct tm* p_tm = localtime(&now);    
+    struct tm *p_tm = localtime(&now);
     resultado += (p_tm->tm_year + 1900);
     resultado += "/";
     if ((p_tm->tm_mon + 1) < 10)
@@ -315,7 +319,7 @@ String fecha_hora()
 }
 void wifi_setup(const char *id_dispositivo)
 {
-    pinMode(0,INPUT);   //Boton FLASH
+    pinMode(0, INPUT); //Boton FLASH
     eeprom.inicializar();
     eeprom.leer();
     if (CharToString(eeprom.ESSID).length() > 0 && CharToString(eeprom.EPASS).length() > 0)
@@ -337,9 +341,9 @@ void wifi_setup(const char *id_dispositivo)
         levantar_AP();
     }
     //Fecha y hora
-    configTime(-3 * 3600, 0, "pool.ntp.org","time.nist.gov");
+    configTime(-3 * 3600, 0, "pool.ntp.org", "time.nist.gov");
     Serial.println("\nWaiting for Internet time");
-    while(!time(nullptr))
+    while (!time(nullptr))
     {
         Serial.print(".");
         delay(1000);
@@ -348,7 +352,7 @@ void wifi_setup(const char *id_dispositivo)
 }
 void wifi_loop()
 {
-    if (digitalRead(0)==LOW && eeprom.validar())
+    if (digitalRead(0) == LOW && eeprom.validar())
     {
         eeprom.grabar();
         Serial.println("Datos grabados con exito!");
