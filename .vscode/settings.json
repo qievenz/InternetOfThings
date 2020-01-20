@@ -46,5 +46,21 @@
     "sync.removeExtensions": false,
     "arduino.commandPath": "arduino",
     "arduino.path": "/home/ivan/arduino-1.8.9",
-    "C_Cpp.intelliSenseEngine": "Tag Parser"
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#24c852",
+        "activityBar.activeBorder": "#825de2",
+        "activityBar.foreground": "#15202b",
+        "activityBar.inactiveForeground": "#15202b99",
+        "activityBarBadge.background": "#825de2",
+        "activityBarBadge.foreground": "#e7e7e7",
+        "titleBar.activeBackground": "#1c9d40",
+        "titleBar.inactiveBackground": "#1c9d4099",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveForeground": "#e7e7e799",
+        "statusBar.background": "#1c9d40",
+        "statusBarItem.hoverBackground": "#24c852",
+        "statusBar.foreground": "#e7e7e7"
+    },
+    "peacock.color": "#1c9d40"
 }
