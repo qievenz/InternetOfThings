@@ -1,31 +1,32 @@
-/**************************************
- * Author      : Velazquez Ivan
- * Date        : Agosto 2019
- * 
- */
-//#define GPIO_PIN 12//GPIO12 = D6
-
-class PIR_class
+class PIR
 {
+    private:
+        uint8_t pin;
+        unsigned long lastCheck;
+        unsigned long interval;
+
     public:
+        PIR(uint8_t gpioPin, unsigned long checkInterval = 1000)
+        : pin(gpioPin), lastCheck(0), interval(checkInterval) {}
+
     void setup()
     {
-        pinMode(GPIO_12, INPUT);
+        pinMode(pin, INPUT);
     }
     bool loop()
     {
-        bool resultado;
-        if (digitalRead(GPIO_12) == HIGH)
-        {
-            Serial.println("Movimiento detectado!");
-            resultado = true;
+        unsigned long currentMillis = millis();
+        
+        if (currentMillis - lastCheck >= interval) {
+            lastCheck = currentMillis;
+
+            if (digitalRead(pin) == HIGH) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        else
-        {
-            Serial.println("No se detecto una goma");
-            resultado = false;
-        }
-        delay(1000);
-        return resultado;
+        
+        return false;
     }
 };

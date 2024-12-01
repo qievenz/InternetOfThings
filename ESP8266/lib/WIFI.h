@@ -6,152 +6,13 @@
  * si no esta diconible levantar un AP
  * ingresar la red y clave a la cual conectarse
  */
-#include <EEPROM.h>
+#include "EEPROM_Handler.h"
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
-//Definicion de clases
-class Eeprom_class
-{
-public:
-    const int MAX_SIZE = 512;
-    char ESSID[32];
-    char EPASS[64];
-    char IP_rpi[15];
-    char ID_mcu[3];
+#include <../../Modules/General.h>
 
-    void inicializar()
-    {
-        EEPROM.begin(MAX_SIZE);
-    }
-
-    void formatear()
-    {
-        for (int i = 0; i < sizeof(ESSID); i++)
-        {
-            ESSID[i] = 255;
-        }
-        for (int i = 0; i < sizeof(EPASS); i++)
-        {
-            EPASS[i] = 255;
-        }
-        for (int i = 0; i < sizeof(IP_rpi); i++)
-        {
-            IP_rpi[i] = 255;
-        }
-        for (int i = 0; i < sizeof(ID_mcu); i++)
-        {
-            ID_mcu[i] = 255;
-        }
-        for (int i = 0; i < MAX_SIZE; i++)
-        {
-            EEPROM.write(i, 255);
-        }
-        delay(10);
-    }
-    void leer()
-    {
-        //cout << "Buscando datos en memoria...";
-        unsigned int longitud = 0;
-        unsigned int posicion = 0;
-        unsigned int i = 0;
-        longitud += sizeof(ESSID);
-        for (posicion; posicion < longitud; posicion++)
-        {
-            if (EEPROM.read(posicion) != 255)
-            {
-                ESSID[i] += char(EEPROM.read(posicion));
-                i++;
-            }
-        }
-        i = 0;
-        longitud += sizeof(EPASS);
-        for (posicion; posicion < longitud; posicion++)
-        {
-            if (EEPROM.read(posicion) != 255)
-            {
-                EPASS[i] += char(EEPROM.read(posicion));
-                i++;
-            }
-        }
-        i = 0;
-        longitud += sizeof(IP_rpi);
-        for (posicion; posicion < longitud; posicion++)
-        {
-            if (EEPROM.read(posicion) != 255)
-            {
-                IP_rpi[i] += char(EEPROM.read(posicion));
-                i++;
-            }
-        }
-        i = 0;
-        longitud += sizeof(ID_mcu);
-        for (posicion; posicion < longitud; posicion++)
-        {
-            if (EEPROM.read(posicion) != 255)
-            {
-                ID_mcu[i] += char(EEPROM.read(posicion));
-                i++;
-            }
-        }
-    }
-    void grabar()
-    {
-        unsigned int longitud = 0;
-        unsigned int posicion = 0;
-        unsigned int i = 0;
-        longitud += sizeof(ESSID);
-        for (posicion; posicion < longitud; posicion++)
-        {
-            EEPROM.write(posicion, ESSID[i]);
-            i++;
-        }
-        i = 0;
-        longitud += sizeof(EPASS);
-        for (posicion; posicion < longitud; posicion++)
-        {
-            EEPROM.write(posicion, EPASS[i]);
-            i++;
-        }
-        i = 0;
-        longitud += sizeof(IP_rpi);
-        for (posicion; posicion < longitud; posicion++)
-        {
-            EEPROM.write(posicion, IP_rpi[i]);
-            i++;
-        }
-        i = 0;
-        longitud += sizeof(ID_mcu);
-        for (posicion; posicion < longitud; posicion++)
-        {
-            EEPROM.write(posicion, ID_mcu[i]);
-            i++;
-        }
-        EEPROM.commit();
-    }
-    bool validar()
-    {
-        bool resultado = false;
-        String str_ESSID = ESSID;
-        String str_EPASS = EPASS;
-        String str_IP_rpi = IP_rpi;
-        String str_ID_mcu = ID_mcu;
-        if (str_ESSID.length() > 0 &&
-            str_EPASS.length() > 0 &&
-            str_IP_rpi.length() > 0 &&
-            str_ID_mcu.length() > 0)
-        {
-            resultado = true;
-        }
-        else
-        {
-            resultado = false;
-        }
-        return resultado;
-    }
-};
-//Variables globales
-Eeprom_class eeprom;
+EEPROM_Handler eeprom;
 ESP8266WebServer server(80);
 WiFiClient client;
 //Funciones
@@ -214,7 +75,7 @@ void page_softAP()
     html += "<label>IP RaspberryPi: </label><input name='iprpi' length=15>";
     html += "<input type='submit'></form>";
     html += "</html>\r\n\r\n";
-    Serial.println(html);
+    //Serial.println(html);
     server.send(200, "text/html", html);
 }
 void request_softAP()
@@ -256,8 +117,8 @@ void levantar_AP()
     const char *essid_ap = "NodeMCU";
     //Configurar AP
     WiFi.mode(WIFI_AP_STA);
-    IPAddress local_IP(192, 168, 4, 22);
-    IPAddress gateway(192, 168, 4, 9);
+    IPAddress local_IP(192, 168, 4, 1);
+    IPAddress gateway(192, 168, 4, 254);
     IPAddress subnet(255, 255, 255, 0);
     Serial.println(WiFi.softAPConfig(local_IP, gateway, subnet) ? "SoftAPConfig Ready" : "SoftAPConfig Failed!");
     //Levantar AP
@@ -279,44 +140,7 @@ void levantar_AP()
     server.begin();
     delay(300);
 }
-String fecha_hora()
-{
-    String resultado = "";
-    time_t now = time(nullptr);
-    struct tm *p_tm = localtime(&now);
-    resultado += (p_tm->tm_year + 1900);
-    resultado += "/";
-    if ((p_tm->tm_mon + 1) < 10)
-    {
-        resultado += "0";
-    }
-    resultado += (p_tm->tm_mon + 1);
-    resultado += "/";
-    if ((p_tm->tm_mday) < 10)
-    {
-        resultado += "0";
-    }
-    resultado += (p_tm->tm_mday);
-    resultado += " ";
-    if ((p_tm->tm_hour) < 10)
-    {
-        resultado += "0";
-    }
-    resultado += (p_tm->tm_hour);
-    resultado += ":";
-    if ((p_tm->tm_min) < 10)
-    {
-        resultado += "0";
-    }
-    resultado += (p_tm->tm_min);
-    resultado += ":";
-    if ((p_tm->tm_sec) < 10)
-    {
-        resultado += "0";
-    }
-    resultado += (p_tm->tm_sec);
-    return resultado;
-}
+
 void wifi_setup(const char *id_dispositivo)
 {
     pinMode(0, INPUT); //Boton FLASH
@@ -342,13 +166,13 @@ void wifi_setup(const char *id_dispositivo)
     }
     //Fecha y hora
     configTime(-3 * 3600, 0, "pool.ntp.org", "time.nist.gov");
-    Serial.println("\nWaiting for Internet time");
+    Serial.println("Waiting for Internet time");
     while (!time(nullptr))
     {
         Serial.print(".");
         delay(1000);
     }
-    Serial.println("Fin");
+    Serial.println("wifi_setup OK");
 }
 void wifi_loop()
 {
@@ -357,4 +181,16 @@ void wifi_loop()
         eeprom.grabar();
         Serial.println("Datos grabados con exito!");
     }
+    server.handleClient();
+}
+
+String GetWiFiInfo()
+{
+    String info = "";
+    
+    info +=  "ESSID: " + WiFi.SSID();
+    info += " - ";
+    info +=  "IP: " + WiFi.localIP().toString();
+    
+    return info;
 }

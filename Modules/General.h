@@ -1,10 +1,4 @@
-/**************************************
- * Author      : Velazquez Ivan
- * Date        : Agosto 2019
- * 
- * Funciones generales entre los dispositivos
- * 
- */
+#pragma once
 #define GPIO_A0 A0  //Analogico: voltimetro e higrometro
 #define GPIO_16 D0  //
 #define GPIO_05 D1  //Rele
@@ -28,4 +22,18 @@ String CharToString(char* a)
 {
     String s = a;
     return s;
+}
+
+String getTimestamp() {
+    time_t now = time(nullptr);
+    struct tm *timeinfo = localtime(&now);
+
+    char buffer[20];
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", timeinfo);
+
+    return String(buffer);
+}
+
+void log(String message) {
+    Serial.println(getTimestamp() + " - " + message);
 }

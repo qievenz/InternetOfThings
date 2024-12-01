@@ -45,7 +45,7 @@
     "sync.gist": "e9453c0318ad3557d0d75c6187ebe729",
     "sync.removeExtensions": false,
     "arduino.commandPath": "arduino",
-    "arduino.path": "/home/ivan/arduino-1.8.9",
+    "arduino.path": "/home/ivan/Descargas/arduino-ide_nightly-20241128_Linux_64bit.AppImage",
     "C_Cpp.intelliSenseEngine": "Tag Parser",
     "workbench.colorCustomizations": {
         "activityBar.background": "#24c852",
@@ -60,7 +60,12 @@
         "titleBar.inactiveForeground": "#e7e7e799",
         "statusBar.background": "#1c9d40",
         "statusBarItem.hoverBackground": "#24c852",
-        "statusBar.foreground": "#e7e7e7"
+        "statusBar.foreground": "#e7e7e7",
+        "activityBar.activeBackground": "#24c852",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#24c852",
+        "statusBarItem.remoteBackground": "#1c9d40",
+        "statusBarItem.remoteForeground": "#e7e7e7"
     },
     "peacock.color": "#1c9d40"
 }
